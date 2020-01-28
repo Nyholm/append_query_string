@@ -1,0 +1,21 @@
+{
+    "name": "nyholm/append-query-string",
+    "description": "A simple function that lets you add a query string to an exising URL",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2"
+    },
+    "autoload": {
+        "files": ["src/include.php"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    }
+}
