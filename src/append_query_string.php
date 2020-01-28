@@ -76,7 +76,7 @@ function append_query_string(string $url, string $queryString, int $mode = APPEN
             $queryString = $existing.'&'.$queryString;
         }
 
-        $result .= trim(preg_replace('#&&+#i', '&', $queryString), '&');
+        $result .= trim((string) preg_replace('#&&+#i', '&', $queryString), '&');
     }
 
     // add fragment
