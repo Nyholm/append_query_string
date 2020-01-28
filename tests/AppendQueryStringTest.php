@@ -24,36 +24,34 @@ class AppendQueryStringTest extends TestCase
         yield ['https://user@foo.com/page/', 'foo=bar', 'https://user@foo.com/page/?foo=bar'];
         yield ['https://user:@foo.com/page/', 'foo=bar', 'https://user:@foo.com/page/?foo=bar'];
         yield ['https://foo.com/page/', 'foo=bar&biz=2', 'https://foo.com/page/?foo=bar&biz=2'];
-        yield ['https://foo.com/page?aa=bb', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2'];
-        yield ['https://foo.com/page?aa=bb#link', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2#link'];
     }
-
 
     public function provideModeIgnore()
     {
         yield from $this->provideBaseUrls();
+
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2'];
+        yield ['https://foo.com/page?aa=bb#link', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2#link'];
         yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?aa=bb&foo=bar&aa=2'];
-
     }
-
-
 
     public function provideModeReplace()
     {
         yield from $this->provideBaseUrls();
-        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?foo=bar&aa=2'];
+
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2'];
+        yield ['https://foo.com/page?aa=bb#link', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2#link'];
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?aa=2&foo=bar'];
     }
-
-
 
     public function provideModeSkip()
     {
         yield from $this->provideBaseUrls();
-        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?aa=bb&foo=bar'];
 
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&biz=2', 'https://foo.com/page?foo=bar&biz=2&aa=bb'];
+        yield ['https://foo.com/page?aa=bb#link', 'foo=bar&biz=2', 'https://foo.com/page?foo=bar&biz=2&aa=bb#link'];
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?foo=bar&aa=bb'];
     }
-
-
 
     /**
      * @dataProvider provideModeIgnore
