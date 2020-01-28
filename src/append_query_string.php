@@ -22,6 +22,7 @@ define('APPEND_QUERY_STRING_SKIP_DUPLICATE', 2);
  *
  * @param string $url         The base URL. Example "https://nyholm.tech?biz=1"
  * @param string $queryString A string like "foo=bar&baz=2"
+ * @param int    $mode        How to handle duplicate keys. See predefined constants above.
  *
  * @return string the resulting string
  */
