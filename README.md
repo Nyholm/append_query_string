@@ -52,7 +52,7 @@ echo $result;
 // https://nyholm.tech?foo=x&a=1&a=2
 ```
 
-#### APPEND_QUERY_STRING_IGNORE_DUPLICATE
+#### APPEND_QUERY_STRING_REPLACE_DUPLICATE
 
 ```php
 $url = 'https://nyholm.tech?foo=x&a=1';
@@ -64,7 +64,7 @@ echo $result;
 // https://nyholm.tech?foo=x&a=2
 ```
 
-#### APPEND_QUERY_STRING_IGNORE_DUPLICATE
+#### APPEND_QUERY_STRING_SKIP_DUPLICATE
 
 ```php
 $url = 'https://nyholm.tech?foo=x&a=1';
