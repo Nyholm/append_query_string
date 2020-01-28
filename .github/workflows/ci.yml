@@ -7,28 +7,6 @@ on:
   pull_request:
 
 jobs:
-  build-lowest-version:
-    name: Build lowest version
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@1.7.0
-        with:
-          php-version: '7.2'
-          coverage: xdebug
-          ini-values: xdebug.overload_var_dump=1
-          extensions: mbstring, intl
-          tools: prestissimo
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download dependencies
-        run: composer update --no-interaction --prefer-stable --prefer-lowest --prefer-dist
-
-      - name: Run tests
-        run: ./vendor/bin/phpunit
 
   build:
     name: Build
@@ -45,7 +23,6 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: xdebug
           ini-values: xdebug.overload_var_dump=1
-          extensions: mbstring, intl
           tools: prestissimo
 
       - name: Checkout code
