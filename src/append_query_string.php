@@ -31,14 +31,16 @@ function append_query_string(string $url, string $queryString, int $mode = APPEN
         return $url;
     }
 
-    $fragment = parse_url($url, PHP_URL_FRAGMENT);
     $existing = parse_url($url, PHP_URL_QUERY);
+    $fragment = parse_url($url, PHP_URL_FRAGMENT);
+    $fragment = $fragment ? '#'.$fragment : '';
 
-    // remove fragment first
+    // Remove fragment
     if (false !== strrpos($url, '#')) {
         $url = substr($url, 0, strrpos($url, '#'));
     }
 
+    // If no existing query string
     if (empty($existing)) {
         // Check for "?" at the last character in $url
         $questionMark = '?';
@@ -46,7 +48,7 @@ function append_query_string(string $url, string $queryString, int $mode = APPEN
             $questionMark = '';
         }
 
-        return sprintf('%s%s%s%s', $url, $questionMark, (string) $queryString, ($fragment ? '#'.$fragment : ''));
+        return $url.$questionMark.$queryString.$fragment;
     }
 
     // Remove query string from URL
@@ -66,5 +68,5 @@ function append_query_string(string $url, string $queryString, int $mode = APPEN
     }
 
     // add fragment
-    return $result.($fragment ? '#'.$fragment : '');
+    return $result.$fragment;
 }
