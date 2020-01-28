@@ -27,7 +27,38 @@ define('APPEND_QUERY_STRING_SKIP_DUPLICATE', 2);
  */
 function append_query_string(string $url, string $queryString, int $mode = APPEND_QUERY_STRING_IGNORE_DUPLICATE): string
 {
+    if ($queryString === '') {
+        return $url;
+    }
 
-    return $url;
+    $fragment = parse_url($url, PHP_URL_FRAGMENT);
+    $existing = parse_url($url, PHP_URL_QUERY);
+
+    // remove fragment first
+    if (false !== strrpos($url, '#')) {
+        $url = substr($url, 0, strrpos($url, '#'));
+    }
+
+    if (empty($existing)) {
+        // Check for "?" at the last character in $url
+        $questionMark = '?';
+        if ($url[strlen($url) - 1] === '?') {
+            $questionMark = '';
+        }
+
+        return sprintf('%s%s%s%s', $url, $questionMark, (string) $queryString, ($fragment ? '#'.$fragment : ''));
+    }
+
+    if ($mode === APPEND_QUERY_STRING_REPLACE_DUPLICATE) {
+
+    } else if ($mode === APPEND_QUERY_STRING_SKIP_DUPLICATE) {
+
+    }
+
+    $result = substr($url, 0, strrpos($url, $existing));
+    $result .= $existing.'&'.$queryString;
+
+    // add fragment
+    return $result . ($fragment ? '#'.$fragment : '');
 }
 

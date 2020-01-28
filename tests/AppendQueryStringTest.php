@@ -11,12 +11,29 @@ class AppendQueryStringTest extends TestCase
     public function provideBaseUrls()
     {
         yield ['https://foo.com', '', 'https://foo.com'];
+        yield ['https://foo.com?', '', 'https://foo.com?'];
+        yield ['https://foo.com', 'foo', 'https://foo.com?foo'];
+        yield ['https://foo.com/', 'foo', 'https://foo.com/?foo'];
+        yield ['https://foo.com', 'foo=bar', 'https://foo.com?foo=bar'];
+        yield ['https://foo.com#aa', 'foo=bar', 'https://foo.com?foo=bar#aa'];
+        yield ['https://foo.com/', 'foo=bar', 'https://foo.com/?foo=bar'];
+        yield ['https://foo.com?', 'foo=bar', 'https://foo.com?foo=bar'];
+        yield ['https://foo.com/page', 'foo=bar', 'https://foo.com/page?foo=bar'];
+        yield ['https://foo.com/page/', 'foo=bar', 'https://foo.com/page/?foo=bar'];
+        yield ['https://user:pass@foo.com/page/', 'foo=bar', 'https://user:pass@foo.com/page/?foo=bar'];
+        yield ['https://user@foo.com/page/', 'foo=bar', 'https://user@foo.com/page/?foo=bar'];
+        yield ['https://user:@foo.com/page/', 'foo=bar', 'https://user:@foo.com/page/?foo=bar'];
+        yield ['https://foo.com/page/', 'foo=bar&biz=2', 'https://foo.com/page/?foo=bar&biz=2'];
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2'];
+        yield ['https://foo.com/page?aa=bb#link', 'foo=bar&biz=2', 'https://foo.com/page?aa=bb&foo=bar&biz=2#link'];
     }
 
 
     public function provideModeIgnore()
     {
         yield from $this->provideBaseUrls();
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?aa=bb&foo=bar&aa=2'];
+
     }
 
 
@@ -24,6 +41,7 @@ class AppendQueryStringTest extends TestCase
     public function provideModeReplace()
     {
         yield from $this->provideBaseUrls();
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?foo=bar&aa=2'];
     }
 
 
@@ -31,6 +49,8 @@ class AppendQueryStringTest extends TestCase
     public function provideModeSkip()
     {
         yield from $this->provideBaseUrls();
+        yield ['https://foo.com/page?aa=bb', 'foo=bar&aa=2', 'https://foo.com/page?aa=bb&foo=bar'];
+
     }
 
 
