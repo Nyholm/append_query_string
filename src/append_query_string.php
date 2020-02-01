@@ -58,14 +58,22 @@ function append_query_string(string $url, string $queryString, int $mode = APPEN
     if (APPEND_QUERY_STRING_IGNORE_DUPLICATE === $mode) {
         $result .= $existing.'&'.$queryString;
     } else {
-        parse_str($existing, $existingArray);
-        parse_str($queryString, $newArray);
+        preg_match_all('#([^&=]+)(=[^&]+)?#si', $existing, $existingArray);
+        preg_match_all('#([^&=]+)(=[^&]+)?#si', $queryString, $queryStringArray);
         if (APPEND_QUERY_STRING_REPLACE_DUPLICATE === $mode) {
-            $queryString = http_build_query(array_merge($existingArray, $newArray));
+            $intersect = array_intersect($existingArray[1], $queryStringArray[1]);
+            $keyMap = array_flip($queryStringArray[1]);
+            foreach ($intersect as $key => $paramName) {
+                $existing = str_replace($existingArray[0][$key], $queryStringArray[0][$keyMap[$paramName]], $existing);
+                $queryString = str_replace($queryStringArray[0][$keyMap[$paramName]], '', $queryString);
+            }
         } elseif (APPEND_QUERY_STRING_SKIP_DUPLICATE === $mode) {
-            $queryString = http_build_query(array_merge($newArray, $existingArray));
+            $intersect = array_intersect($queryStringArray[1], $existingArray[1]);
+            foreach ($intersect as $key => $paramName) {
+                $queryString = str_replace($queryStringArray[0][$key], '', $queryString);
+            }
         }
-        $result .= $queryString;
+        $result .= trim((string) preg_replace('#&&+#i', '&', $existing.'&'.$queryString), '&');
     }
 
     // add fragment
