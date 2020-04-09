@@ -1,6 +1,6 @@
 {
     "name": "nyholm/append-query-string",
-    "description": "A simple function that lets you add a query string to an exising URL",
+    "description": "A simple function that lets you add a query string to an existing URL",
     "type": "library",
     "license": "MIT",
     "authors": [
