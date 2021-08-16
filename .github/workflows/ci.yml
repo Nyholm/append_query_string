@@ -8,8 +8,8 @@ on:
 
 jobs:
 
-  build:
-    name: Build
+  phpunit:
+    name: PHPUnit
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 10
